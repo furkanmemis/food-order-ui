@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import Grid from "@mui/material/Grid2";
 import { Box, Typography, Button, TextField } from "@mui/material";
-import { SessionUser } from "../models/SessionUser";
+import { SessionUser } from "../Models/SessionUser";
 import { useAuth } from "../Context/AuthContext";
 
 const SignIn: React.FC = () => {

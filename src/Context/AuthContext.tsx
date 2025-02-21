@@ -1,5 +1,5 @@
 import React, { createContext, useState, useContext, ReactNode } from 'react';
-import { SessionUser } from '../models/SessionUser';
+import { SessionUser } from '../Models/SessionUser';
 
 interface AuthContextType {
   user: SessionUser | null;
