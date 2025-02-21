@@ -21,14 +21,8 @@ const Header: React.FC = () => {
               <Divider />
             </Grid>
 
-            <Grid container spacing={5} size={12}>
-              <Grid size={6}>
-                <Campaign />
-              </Grid>
-
-              <Grid size={6}>
+            <Grid size={12}>
                 <ChainRestaurant />
-              </Grid>
             </Grid>
           </Grid>
         </CardContent>
