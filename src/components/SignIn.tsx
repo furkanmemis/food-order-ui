@@ -1,13 +1,23 @@
 import React, { useState } from "react";
 import Grid from "@mui/material/Grid2";
-import { Box, Typography, Button, TextField } from "@mui/material";
+import {
+  Box,
+  Typography,
+  Button,
+  TextField,
+  InputAdornment,
+  IconButton,
+} from "@mui/material";
 import { SessionUser } from "../Models/SessionUser";
 import { useAuth } from "../Context/AuthContext";
+import VisibilityIcon from "@mui/icons-material/Visibility";
+import VisibilityOffIcon from "@mui/icons-material/VisibilityOff";
 
 const SignIn: React.FC = () => {
   const { login } = useAuth();
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
+  const [showPassword, setShowPassword] = useState<boolean>(false);
 
   const handleLogin = () => {
     const myUser: SessionUser = {
@@ -41,7 +51,7 @@ const SignIn: React.FC = () => {
       >
         <Grid mt={5} size={12}>
           <Typography
-            variant="h6"
+            variant="h3"
             style={{
               color: "darkslateblue",
               fontFamily: "monospace",
@@ -51,8 +61,9 @@ const SignIn: React.FC = () => {
             Fuzei
           </Typography>
         </Grid>
-        <Grid size={12}>
+        <Grid size={12} sx={{margin: 3}}>
           <TextField
+          fullWidth
             label="Email"
             value={email}
             onChange={(e) => {
@@ -60,12 +71,27 @@ const SignIn: React.FC = () => {
             }}
           />
         </Grid>
-        <Grid size={12}>
+        <Grid size={12} sx={{margin: 3}}>
           <TextField
+          fullWidth
             label="Password"
+            type={showPassword ? "text" : "password"}
             value={password}
-            onChange={(e) => {
-              setPassword(e.target.value);
+            onChange={(e) => setPassword(e.target.value)}
+            slotProps={{
+              input: {
+                endAdornment: (
+                  <InputAdornment position="end">
+                    <IconButton onClick={() => setShowPassword(!showPassword)}>
+                      {showPassword ? (
+                        <VisibilityOffIcon />
+                      ) : (
+                        <VisibilityIcon />
+                      )}
+                    </IconButton>
+                  </InputAdornment>
+                ),
+              },
             }}
           />
         </Grid>
