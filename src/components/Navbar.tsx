@@ -5,9 +5,19 @@ import PersonIcon from "@mui/icons-material/Person";
 import LogoutIcon from "@mui/icons-material/Logout";
 import SettingsIcon from "@mui/icons-material/Settings";
 import { useAuth } from "../Context/AuthContext";
+import { useNavigate } from "react-router-dom";
 
 const Navbar: React.FC = () => {
   const { logout } = useAuth();
+  const navigate = useNavigate();
+
+  const redirectProfile = () => {
+    navigate("/profile");
+  };
+
+  const redirectHome = () => {
+    navigate('/home');
+  }
 
   return (
     <Box
@@ -22,7 +32,8 @@ const Navbar: React.FC = () => {
       <Grid container size={12}>
         <Grid sx={{ padding: 1 }} size={6}>
           <Typography
-            style={{ color: "white", fontFamily: "monospace", fontSize: 24 }}
+            style={{ color: "white", fontFamily: "monospace", fontSize: 24, cursor: "pointer" }}
+            onClick={()=>{redirectHome()}}
           >
             Fuzei
           </Typography>
@@ -40,7 +51,13 @@ const Navbar: React.FC = () => {
           }}
         >
           <SettingsIcon style={{ color: "white" }} />
-          <PersonIcon style={{ color: "white" }} />
+          <IconButton
+            onClick={() => {
+              redirectProfile();
+            }}
+          >
+            <PersonIcon style={{ color: "white" }} />
+          </IconButton>
           <IconButton
             onClick={() => {
               logout();
