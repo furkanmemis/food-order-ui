@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
 import Grid from "@mui/material/Grid2";
-import { Typography } from "@mui/material";
 import {
   Card,
   CardContent,
@@ -9,28 +8,44 @@ import {
   TableHead,
   TableCell,
   TableRow,
+  Button,
+  Typography,
+  IconButton,
 } from "@mui/material";
 import EditIcon from "@mui/icons-material/Edit";
 import API from "../../services/api-services";
 import { User } from "../../Models/User";
+import DeleteIcon from "@mui/icons-material/Delete";
 
 const UserManagement: React.FC = () => {
-  const tableColumns = ["Name", "Surname", "Email","Role" ,"Actions"];
+  const tableColumns = ["Name", "Surname", "Email", "Role", "Actions"];
   const [allUser, setAllUser] = useState<User[]>([]);
   const user_api_service = new API("user/");
 
   const getAllUser = async () => {
     try {
-      const response = await user_api_service.get_api("get-all-user");
+      const response = await user_api_service.get("get-all-user");
       setAllUser(response.allUser as User[]);
     } catch (error) {
       console.log("User Management error: ", error);
     }
   };
 
+  const deleteUser = async (id: string) => {
+    try{
+
+      const response = await user_api_service.delete('delete-user/'+id);
+      console.log("Delete User Response: ", response);
+      getAllUser();
+
+    }catch(error){
+      console.log("User management delete error: ",error);
+    }
+  }
+
   useEffect(() => {
     getAllUser();
-  });
+  },[]);
 
   return (
     <Grid container size={12} sx={{ marginTop: 3 }}>
@@ -41,6 +56,24 @@ const UserManagement: React.FC = () => {
         >
           User Management
         </Typography>
+      </Grid>
+
+      <Grid
+        size={12}
+        display="flex"
+        justifyContent="flex-end"
+        sx={{ margin: 3 }}
+      >
+        <Button
+          style={{
+            backgroundColor: "darkslateblue",
+            color: "white",
+            textTransform: "none",
+          }}
+          variant="contained"
+        >
+          Create New User
+        </Button>
       </Grid>
 
       <Grid size={12} sx={{ margin: 3 }}>
@@ -67,14 +100,38 @@ const UserManagement: React.FC = () => {
               </TableHead>
 
               <TableBody>
-                {allUser.map((user,index) => {
+                {allUser.map((user, index) => {
                   return (
                     <TableRow key={index}>
-                      <TableCell sx={{ textAlign: "center" }}>{user.name}</TableCell>
-                      <TableCell sx={{ textAlign: "center" }}>{user.surname}</TableCell>
-                      <TableCell sx={{ textAlign: "center" }}>{user.email}</TableCell>
-                      <TableCell sx={{ textAlign: "center" }}>{user.role}</TableCell>
-                      <TableCell sx={{ textAlign: "center" }}><EditIcon style={{ color: "darkslateblue" }} /></TableCell>
+                      <TableCell sx={{ textAlign: "center" }}>
+                        {user.name}
+                      </TableCell>
+                      <TableCell sx={{ textAlign: "center" }}>
+                        {user.surname}
+                      </TableCell>
+                      <TableCell sx={{ textAlign: "center" }}>
+                        {user.email}
+                      </TableCell>
+                      <TableCell sx={{ textAlign: "center" }}>
+                        {user.role}
+                      </TableCell>
+                      <TableCell
+                        sx={{
+                          textAlign: "center",
+                          display: "flex",
+                          justifyContent: "center",
+                        }}
+                      >
+                        <IconButton>
+                          <EditIcon
+                            style={{ color: "darkslateblue" }}
+                            sx={{ marginRight: 1 }}
+                          />
+                        </IconButton>
+                        <IconButton onClick={()=>{deleteUser(user._id)}}>
+                          <DeleteIcon style={{ color: "darkred" }} />
+                        </IconButton>
+                      </TableCell>
                     </TableRow>
                   );
                 })}
