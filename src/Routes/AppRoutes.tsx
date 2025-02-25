@@ -4,10 +4,11 @@ import Home from "../Pages/Home";
 import Navbar from "../components/Navbar";
 import Grid from "@mui/material/Grid2";
 import Profile from "../Pages/Profile";
+import User from "../Pages/User";
 
 const AppRoutes: React.FC = () => {
   return (
-    <Grid container spacing={6}>
+    <Grid container>
       <Grid size={12}>
         <Navbar />
       </Grid>
@@ -15,6 +16,7 @@ const AppRoutes: React.FC = () => {
         <Routes>
           <Route path="/home" element={<Home />} />
           <Route path="/profile" element={<Profile />} />
+          <Route path="/user" element={<User />} />
         </Routes>
       </Grid>
     </Grid>

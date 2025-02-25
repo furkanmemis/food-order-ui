@@ -7,16 +7,16 @@ const Profile: React.FC = () => {
   const { email, name, surname, role } = useAuth();
 
   return (
-    <Grid container style={{ height: "100vh", flexDirection: "column" }}>
-      <Grid size={12} textAlign="center">
-        <Typography
+    <Grid container size={12}>
+      <Grid size={12} sx={{margin: 8}}>
+      <Typography
           variant="h4"
           style={{ fontFamily: "monospace", color: "darkslateblue" }}
         >
           Profile
         </Typography>
       </Grid>
-      <Grid size={12} sx={{ marginLeft: 4 }}>
+      <Grid size={12} sx={{margin: 3}}>
         <Grid size={12}>
           <Typography
             variant="h5"
@@ -41,6 +41,21 @@ const Profile: React.FC = () => {
           </Grid>
         ) : null}
       </Grid>
+      <Grid size={12} sx={{margin: 3}}>
+        <Grid size={12}>
+          <Typography
+            variant="h5"
+            sx={{ fontFamily: "monospace", color: "darkslateblue" }}
+          >
+            Admin Panel
+          </Typography>
+        </Grid>
+        <Grid size={12}>
+          <Typography variant="h6">Users Page</Typography>
+        </Grid>
+
+      </Grid>
+
     </Grid>
   );
 };
