@@ -16,11 +16,13 @@ import EditIcon from "@mui/icons-material/Edit";
 import API from "../../services/api-services";
 import { User } from "../../Models/User";
 import DeleteIcon from "@mui/icons-material/Delete";
+import UserOperation from "../UserOperation";
 
 const UserManagement: React.FC = () => {
   const tableColumns = ["Name", "Surname", "Email", "Role", "Actions"];
   const [allUser, setAllUser] = useState<User[]>([]);
   const user_api_service = new API("user/");
+  const [open, setOpen] = useState<boolean>(false);
 
   const getAllUser = async () => {
     try {
@@ -32,23 +34,35 @@ const UserManagement: React.FC = () => {
   };
 
   const deleteUser = async (id: string) => {
-    try{
-
-      const response = await user_api_service.delete('delete-user/'+id);
+    try {
+      const response = await user_api_service.delete("delete-user/" + id);
       console.log("Delete User Response: ", response);
       getAllUser();
-
-    }catch(error){
-      console.log("User management delete error: ",error);
+    } catch (error) {
+      console.log("User management delete error: ", error);
     }
-  }
+  };
 
   useEffect(() => {
     getAllUser();
-  },[]);
+  }, []);
 
   return (
     <Grid container size={12} sx={{ marginTop: 3 }}>
+      <Grid size={12}>
+        <UserOperation
+          onClose={() => {
+            setOpen(!open);
+          }}
+          open={open}
+          title="Create User"
+          onRefresh={(refresh) => {
+            if(refresh){
+              getAllUser();
+            }
+          }}
+        />
+      </Grid>
       <Grid size={12} sx={{ margin: 3 }}>
         <Typography
           variant="h4"
@@ -71,6 +85,9 @@ const UserManagement: React.FC = () => {
             textTransform: "none",
           }}
           variant="contained"
+          onClick={() => {
+            setOpen(!open);
+          }}
         >
           Create New User
         </Button>
@@ -128,7 +145,11 @@ const UserManagement: React.FC = () => {
                             sx={{ marginRight: 1 }}
                           />
                         </IconButton>
-                        <IconButton onClick={()=>{deleteUser(user._id)}}>
+                        <IconButton
+                          onClick={() => {
+                            deleteUser(user._id);
+                          }}
+                        >
                           <DeleteIcon style={{ color: "darkred" }} />
                         </IconButton>
                       </TableCell>
