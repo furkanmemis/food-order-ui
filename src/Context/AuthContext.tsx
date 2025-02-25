@@ -43,6 +43,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
   
       if (response.data.result === "Success") {
         localStorage.setItem("sessionUser", JSON.stringify(user));
+        localStorage.setItem("token",user.token);
   
         console.log("user info", user.name, user.surname, user.email);
         setName(user.name)
