@@ -5,7 +5,9 @@ import {
   IconButton,
   Typography,
   TextField,
-  Button
+  Button,
+  Select,
+  MenuItem,
 } from "@mui/material";
 import CloseIcon from "@mui/icons-material/Close";
 import API from "../../services/api-services";
@@ -21,39 +23,43 @@ const UserOperation: React.FC<UserOperationProps> = ({
   onClose,
   open,
   title,
-  onRefresh
+  onRefresh,
 }) => {
-
   const user_api_service = new API("user/");
-  const [name,setName] = useState<string>('');
-  const [surname, setSurname] = useState<string>('');
-  const [email,setEmail] = useState<string>('');
-  const [password,setPassword] = useState<string>('');
-
+  const [name, setName] = useState<string>("");
+  const [surname, setSurname] = useState<string>("");
+  const [email, setEmail] = useState<string>("");
+  const [password, setPassword] = useState<string>("");
+  const [role, setRole] = useState<string>("user");
 
   const createUser = async () => {
-    try{
-      const response = await user_api_service.post('create-user',{name,surname,email,password});
-      console.log('create user response -> ',response);
+    try {
+      const response = await user_api_service.post("create-user", {
+        name,
+        surname,
+        email,
+        password,
+        role,
+      });
+      console.log("create user response -> ", response);
       reset();
-  
-    }catch(error){
+    } catch (error) {
       console.log("User create error: ", error);
     }
   };
 
-  const reset = () =>{
-    setName('');
-    setSurname('');
-    setPassword('');
-    setEmail('');
+  const reset = () => {
+    setName("");
+    setSurname("");
+    setPassword("");
+    setEmail("");
+    setRole("user");
 
-    setTimeout(()=>{
+    setTimeout(() => {
       onClose();
       onRefresh(true);
-    },100)
-
-  }
+    }, 100);
+  };
 
   return (
     <SwipeableDrawer
@@ -83,28 +89,87 @@ const UserOperation: React.FC<UserOperationProps> = ({
 
         <Grid container spacing={3} size={4}>
           <Grid size={12}>
-            <TextField value={name} label="Name" fullWidth onChange={(e)=>{setName(e.target.value)}} />
+            <TextField
+              value={name}
+              label="Name"
+              fullWidth
+              onChange={(e) => {
+                setName(e.target.value);
+              }}
+            />
           </Grid>
 
           <Grid size={12}>
-            <TextField value={surname} label="Surname" fullWidth onChange={(e)=>{setSurname(e.target.value)}} />
+            <TextField
+              value={surname}
+              label="Surname"
+              fullWidth
+              onChange={(e) => {
+                setSurname(e.target.value);
+              }}
+            />
           </Grid>
         </Grid>
 
         <Grid container spacing={3} size={4}>
           <Grid size={12}>
-            <TextField value={email} label="Email" fullWidth onChange={(e)=>{setEmail(e.target.value)}} />
+            <TextField
+              value={email}
+              label="Email"
+              fullWidth
+              onChange={(e) => {
+                setEmail(e.target.value);
+              }}
+            />
           </Grid>
 
           <Grid size={12}>
-            <TextField value={password} label="Password" fullWidth onChange={(e)=>{setPassword(e.target.value)}} />
+            <TextField
+              value={password}
+              label="Password"
+              fullWidth
+              onChange={(e) => {
+                setPassword(e.target.value);
+              }}
+            />
           </Grid>
         </Grid>
 
-        <Grid size={4} display="flex" alignItems="center" justifyContent="center">
+        <Grid
+          container
+          size={4}
+          display="flex"
+          alignItems="center"
+          justifyContent="center"
+        >
+          <Grid size={12}>
+            <Select
+              value={role}
+              onChange={(e) => {
+                setRole(e.target.value);
+              }}
+              fullWidth
+            >
+              <MenuItem value="user">User</MenuItem>
+              <MenuItem value="vendor">Vendor</MenuItem>
+            </Select>
+          </Grid>
 
-            <Button onClick={()=>{createUser();}} variant="contained" style={{textTransform: "none", width: "70%", backgroundColor: "darkslateblue"}}>{title}</Button>
-
+          <Grid size={12}>
+            <Button
+              onClick={() => {
+                createUser();
+              }}
+              variant="contained"
+              style={{
+                textTransform: "none",
+                backgroundColor: "darkslateblue",
+              }}
+              fullWidth
+            >
+              {title}
+            </Button>
+          </Grid>
         </Grid>
       </Grid>
     </SwipeableDrawer>
