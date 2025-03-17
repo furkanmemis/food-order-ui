@@ -16,7 +16,7 @@ import EditIcon from "@mui/icons-material/Edit";
 import API from "../../services/api-services";
 import { User } from "../../Models/User";
 import DeleteIcon from "@mui/icons-material/Delete";
-import UserOperation from "../UserOperation";
+import UserOperation from "./UserOperation";
 
 const UserManagement: React.FC = () => {
   const tableColumns = ["Name", "Surname", "Email", "Role", "Actions"];

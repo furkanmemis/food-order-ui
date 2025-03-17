@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import Grid from "@mui/material/Grid2";
 import {
   Typography,
@@ -10,16 +10,49 @@ import {
   CardContent,
   Card,
   TableRow,
-  IconButton
+  IconButton,
 } from "@mui/material";
 import DeleteIcon from "@mui/icons-material/Delete";
 import EditIcon from "@mui/icons-material/Edit";
+import CategoryOperation from "./CategoryOperation";
+import { Category } from "../../Models/Category";
+import API from "../../services/api-services";
 
 const CategoryManagement: React.FC = () => {
   const tableHead = ["Name", "Action"];
+  const [open, setOpen] = useState<boolean>(false);
+  const [allCategory, setAllCategory] = useState<Category[]>([]);
+  const category_api_service = new API("category/");
+
+  const getAllCategory = async () => {
+    try {
+      const response = await category_api_service.get("get-all-category");
+      setAllCategory(response as Category[]);
+    } catch (error) {
+      console.log("get all category error -> ", error);
+    }
+  };
+
+  useEffect(() => {
+    getAllCategory();
+  }, []);
 
   return (
     <Grid container size={12} sx={{ marginTop: 3 }}>
+      <Grid size={12}>
+        <CategoryOperation
+          onClose={() => {
+            setOpen(!open);
+          }}
+          open={open}
+          onRefresh={(refresh) => {
+            if(refresh){
+              getAllCategory();
+            }
+          }}
+          title="Create Category"
+        />
+      </Grid>
       <Grid size={12} sx={{ margin: 3 }}>
         <Typography
           variant="h4"
@@ -41,6 +74,7 @@ const CategoryManagement: React.FC = () => {
             color: "white",
             textTransform: "none",
           }}
+          onClick={()=>{setOpen(!open)}}
         >
           Create Category
         </Button>
@@ -51,45 +85,51 @@ const CategoryManagement: React.FC = () => {
           <CardContent>
             <Table>
               <TableHead style={{ backgroundColor: "whitesmoke" }}>
-                {tableHead.map((head, index) => {
-                  return (
-                    <TableCell
-                      sx={{
-                        color: "darkslateblue",
-                        fontWeight: "bold",
-                        textAlign: "center",
-                      }}
-                      key={index}
-                    >
-                      {head}
-                    </TableCell>
-                  );
-                })}
+                <TableRow>
+                  {tableHead.map((head, index) => {
+                    return (
+                      <TableCell
+                        sx={{
+                          color: "darkslateblue",
+                          fontWeight: "bold",
+                          textAlign: "center",
+                        }}
+                        key={index}
+                      >
+                        {head}
+                      </TableCell>
+                    );
+                  })}
+                </TableRow>
               </TableHead>
               <TableBody>
-                <TableRow>
-                  <TableCell sx={{textAlign: "center"}}>Fast Food</TableCell>
+                {allCategory.map((category, index) => {
+                  return (
+                    <TableRow key={index}>
+                      <TableCell sx={{ textAlign: "center" }}>
+                        {category.name}
+                      </TableCell>
 
-                  <TableCell
-                    sx={{
-                      textAlign: "center",
-                      display: "flex",
-                      justifyContent: "center",
-                    }}
-                  >
-                    <IconButton>
-                      <EditIcon
-                        style={{ color: "darkslateblue" }}
-                        sx={{ marginRight: 1 }}
-                      />
-                    </IconButton>
-                    <IconButton
-                      onClick={() => {}}
-                    >
-                      <DeleteIcon style={{ color: "darkred" }} />
-                    </IconButton>
-                  </TableCell>
-                </TableRow>
+                      <TableCell
+                        sx={{
+                          textAlign: "center",
+                          display: "flex",
+                          justifyContent: "center",
+                        }}
+                      >
+                        <IconButton>
+                          <EditIcon
+                            style={{ color: "darkslateblue" }}
+                            sx={{ marginRight: 1 }}
+                          />
+                        </IconButton>
+                        <IconButton onClick={() => {}}>
+                          <DeleteIcon style={{ color: "darkred" }} />
+                        </IconButton>
+                      </TableCell>
+                    </TableRow>
+                  );
+                })}
               </TableBody>
             </Table>
           </CardContent>
