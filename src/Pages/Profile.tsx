@@ -11,6 +11,10 @@ const Profile: React.FC = () => {
 
   const redirectUser = () => {
     navigate('/user');
+  };
+
+  const redirectCategory = () => {
+    navigate('/category');
   }
 
   return (
@@ -59,6 +63,10 @@ const Profile: React.FC = () => {
         </Grid>
         <Grid size={12}>
           <Typography onClick={()=>{redirectUser()}} style={{cursor: "pointer"}} variant="h6">Users Page</Typography>
+        </Grid>
+
+        <Grid size={12}>
+          <Typography onClick={()=>{redirectCategory()}} style={{cursor: "pointer"}} variant="h6">Category Page</Typography>
         </Grid>
 
       </Grid>

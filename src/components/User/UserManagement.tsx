@@ -94,7 +94,7 @@ const UserManagement: React.FC = () => {
       </Grid>
 
       <Grid size={12} sx={{ margin: 3 }}>
-        <Card>
+        <Card square elevation={10}>
           <CardContent>
             <Table>
               <TableHead style={{ backgroundColor: "whitesmoke" }}>

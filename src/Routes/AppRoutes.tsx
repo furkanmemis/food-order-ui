@@ -5,6 +5,7 @@ import Navbar from "../components/Navbar";
 import Grid from "@mui/material/Grid2";
 import Profile from "../Pages/Profile";
 import User from "../Pages/User";
+import Category from "../Pages/Category";
 
 const AppRoutes: React.FC = () => {
   return (
@@ -17,6 +18,7 @@ const AppRoutes: React.FC = () => {
           <Route path="/home" element={<Home />} />
           <Route path="/profile" element={<Profile />} />
           <Route path="/user" element={<User />} />
+          <Route path="/category" element={<Category />} />
         </Routes>
       </Grid>
     </Grid>
