@@ -8,69 +8,110 @@ const Profile: React.FC = () => {
   const { email, name, surname, role } = useAuth();
   const navigate = useNavigate();
 
-
   const redirectUser = () => {
-    navigate('/user');
+    navigate("/user");
   };
 
   const redirectCategory = () => {
-    navigate('/category');
-  }
+    navigate("/category");
+  };
 
   return (
     <Grid container size={12}>
-      <Grid size={12} sx={{marginLeft: 3, marginTop: 10}}>
-      <Typography
+      <Grid size={12} sx={{ marginLeft: 3, marginTop: 10 }}>
+        <Typography
           variant="h4"
           style={{ fontFamily: "monospace", color: "darkslateblue" }}
         >
           Profile
         </Typography>
       </Grid>
-      <Grid size={6} sx={{margin: 3}}>
-        <Grid size={12}>
-          <Typography
-            variant="h5"
-            sx={{ fontFamily: "monospace", color: "darkslateblue" }}
-          >
-            User Information
-          </Typography>
-        </Grid>
-        <Grid size={12}>
-          <Typography variant="h6">Name: {name}</Typography>
-        </Grid>
-        <Grid size={12}>
-          <Typography variant="h6">Surname: {surname}</Typography>
+
+      <Grid container size={12}>
+        <Grid size={4} sx={{ margin: 3 }}>
+          <Grid size={12}>
+            <Typography
+              variant="h5"
+              sx={{ fontFamily: "monospace", color: "darkslateblue" }}
+            >
+              User Information
+            </Typography>
+          </Grid>
+          <Grid size={12}>
+            <Typography variant="h6">Name: {name}</Typography>
+          </Grid>
+          <Grid size={12}>
+            <Typography variant="h6">Surname: {surname}</Typography>
+          </Grid>
+
+          <Grid size={12}>
+            <Typography variant="h6">Email: {email}</Typography>
+          </Grid>
+          {role === "admin" ? (
+            <Grid size={12}>
+              <Typography variant="h6">Role: {role}</Typography>
+            </Grid>
+          ) : null}
         </Grid>
 
-        <Grid size={12}>
-          <Typography variant="h6">Email: {email}</Typography>
-        </Grid>
         {role === "admin" ? (
-          <Grid size={12}>
-            <Typography variant="h6">Role: {role}</Typography>
+          <Grid size={4} sx={{ margin: 3 }}>
+            <Grid size={12}>
+              <Typography
+                variant="h5"
+                sx={{ fontFamily: "monospace", color: "darkslateblue" }}
+              >
+                Admin Panel
+              </Typography>
+            </Grid>
+            <Grid size={12}>
+              <Typography
+                onClick={() => {
+                  redirectUser();
+                }}
+                style={{ cursor: "pointer" }}
+                variant="h6"
+              >
+                Users Page
+              </Typography>
+            </Grid>
+
+            <Grid size={12}>
+              <Typography
+                onClick={() => {
+                  redirectCategory();
+                }}
+                style={{ cursor: "pointer" }}
+                variant="h6"
+              >
+                Category Page
+              </Typography>
+            </Grid>
+          </Grid>
+        ) : null}
+
+        {role === "admin" || role === "vendor" ? (
+          <Grid size={4} sx={{ margin: 3 }}>
+            <Grid size={12}>
+              <Typography
+                variant="h5"
+                sx={{ fontFamily: "monospace", color: "darkslateblue" }}
+              >
+                Vendor Panel
+              </Typography>
+            </Grid>
+            <Grid size={12}>
+              <Typography
+                onClick={() => {}}
+                style={{ cursor: "pointer" }}
+                variant="h6"
+              >
+                Restaurants Page
+              </Typography>
+            </Grid>
           </Grid>
         ) : null}
       </Grid>
-      <Grid size={6} sx={{margin: 3}}>
-        <Grid size={12}>
-          <Typography
-            variant="h5"
-            sx={{ fontFamily: "monospace", color: "darkslateblue" }}
-          >
-            Admin Panel
-          </Typography>
-        </Grid>
-        <Grid size={12}>
-          <Typography onClick={()=>{redirectUser()}} style={{cursor: "pointer"}} variant="h6">Users Page</Typography>
-        </Grid>
-
-        <Grid size={12}>
-          <Typography onClick={()=>{redirectCategory()}} style={{cursor: "pointer"}} variant="h6">Category Page</Typography>
-        </Grid>
-
-      </Grid>
-
     </Grid>
   );
 };
