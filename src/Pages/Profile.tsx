@@ -16,6 +16,10 @@ const Profile: React.FC = () => {
     navigate("/category");
   };
 
+  const redirectRestaurant = () =>{
+    navigate('/restaurant');
+  }
+
   return (
     <Grid container size={12}>
       <Grid size={12} sx={{ marginLeft: 3, marginTop: 10 }}>
@@ -102,7 +106,7 @@ const Profile: React.FC = () => {
             </Grid>
             <Grid size={12}>
               <Typography
-                onClick={() => {}}
+                onClick={() => {redirectRestaurant()}}
                 style={{ cursor: "pointer" }}
                 variant="h6"
               >

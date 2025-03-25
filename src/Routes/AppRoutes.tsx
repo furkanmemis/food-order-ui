@@ -6,6 +6,7 @@ import Grid from "@mui/material/Grid2";
 import Profile from "../Pages/Profile";
 import User from "../Pages/User";
 import Category from "../Pages/Category";
+import Restaurant from "../Pages/Restaurant";
 
 const AppRoutes: React.FC = () => {
   return (
@@ -19,6 +20,8 @@ const AppRoutes: React.FC = () => {
           <Route path="/profile" element={<Profile />} />
           <Route path="/user" element={<User />} />
           <Route path="/category" element={<Category />} />
+          <Route path="/restaurant" element={<Restaurant />} />
+
         </Routes>
       </Grid>
     </Grid>

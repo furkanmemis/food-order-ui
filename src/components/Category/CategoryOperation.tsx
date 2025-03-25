@@ -9,6 +9,8 @@ import {
 } from "@mui/material";
 import CloseIcon from "@mui/icons-material/Close";
 import API from "../../services/api-services";
+import { useSnackbar } from "notistack";
+
 
 interface CategoryOperationProps {
   onClose: () => void;
@@ -26,6 +28,7 @@ const CategoryOperation: React.FC<CategoryOperationProps> = ({
 
   const category_api_service = new API("category/");
   const [name,setName] = useState<string>('');
+  const { enqueueSnackbar } = useSnackbar();
 
 
   const createCategory = async () => {
@@ -33,9 +36,11 @@ const CategoryOperation: React.FC<CategoryOperationProps> = ({
       const response = await category_api_service.post('create-category',{name});
       console.log('create category response -> ',response);
       reset();
+      enqueueSnackbar('Category create success.',{variant: "success", autoHideDuration: 2000});
   
     }catch(error){
       console.log("Category create error: ", error);
+      enqueueSnackbar('Category create error.',{variant: "error", autoHideDuration: 2000});
     }
   };
 

@@ -1,6 +1,7 @@
 import React, { createContext, useState, useContext, ReactNode } from "react";
 import { SessionUser } from "../Models/SessionUser";
 import axios from "axios";
+import { useSnackbar } from 'notistack';
 
 
 interface AuthContextType {
@@ -32,6 +33,8 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
   const [surname,setSurname] = useState<string>('');
   const [email, setEmail] = useState<string>('');
   const [role, setRole] = useState<string>('');
+  const { enqueueSnackbar } = useSnackbar();
+
 
   const login = async (userData: SessionUser) => {
     try {
@@ -56,9 +59,12 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
   
         // Yeni sayfa içeriğini yüklemek için durumu güncelle (Opsiyonel)
         window.dispatchEvent(new Event("popstate"));
+        enqueueSnackbar('Login success.',{variant: "success", autoHideDuration: 2000});
       }
     } catch (error) {
       console.log("login error: ", error);
+      enqueueSnackbar('Login fail, check your credentials.',{variant: "error", autoHideDuration: 2000});
+
     }
   };
 

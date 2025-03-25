@@ -11,60 +11,68 @@ import {
   Button,
   Typography,
   IconButton,
+  Tooltip,
 } from "@mui/material";
 import EditIcon from "@mui/icons-material/Edit";
 import API from "../../services/api-services";
-import { User } from "../../Models/User";
 import DeleteIcon from "@mui/icons-material/Delete";
-import UserOperation from "./UserOperation";
 import { useSnackbar } from "notistack";
+import { RestaurantManagementModel } from "../../Models/Restaurant";
+import RestaurantOperation from "./RestaurantOperation";
 
-
-const UserManagement: React.FC = () => {
-  const tableColumns = ["Name", "Surname", "Email", "Role", "Actions"];
-  const [allUser, setAllUser] = useState<User[]>([]);
-  const user_api_service = new API("user/");
+const RestaurantManagement: React.FC = () => {
+  const tableColumns = ["Name", "Categories", "Address", "Vendor", "Actions"];
+  const restaurant_api_service = new API("restaurant/");
   const [open, setOpen] = useState<boolean>(false);
   const { enqueueSnackbar } = useSnackbar();
-  
+  const [allRestaurant, setAllRestaurant] = useState<
+    RestaurantManagementModel[]
+  >([]);
 
-  const getAllUser = async () => {
+  const getAllRestaurant = async () => {
     try {
-      const response = await user_api_service.get("get-all-user");
-      setAllUser(response.allUser as User[]);
+      const response = await restaurant_api_service.get("get-all-restaurant");
+      setAllRestaurant(response as RestaurantManagementModel[]);
     } catch (error) {
       console.log("User Management error: ", error);
     }
   };
 
-  const deleteUser = async (id: string) => {
+  const deleteRestaurant = async (id: string) => {
     try {
-      const response = await user_api_service.delete("delete-user/" + id);
+      const response = await restaurant_api_service.delete(
+        "delete-restaurant/" + id
+      );
       console.log("Delete User Response: ", response);
-      getAllUser();
-      enqueueSnackbar('User delete success.',{variant: "success", autoHideDuration: 2000});
+      getAllRestaurant();
+      enqueueSnackbar("User delete success.", {
+        variant: "success",
+        autoHideDuration: 2000,
+      });
     } catch (error) {
       console.log("User management delete error: ", error);
-      enqueueSnackbar('User delete error.',{variant: "error", autoHideDuration: 2000});
+      enqueueSnackbar("User delete error.", {
+        variant: "error",
+        autoHideDuration: 2000,
+      });
     }
   };
 
   useEffect(() => {
-    getAllUser();
+    getAllRestaurant();
   }, []);
 
   return (
     <Grid container size={12} sx={{ marginTop: 3 }}>
       <Grid size={12}>
-        <UserOperation
+        <RestaurantOperation
+          open={open}
           onClose={() => {
             setOpen(!open);
           }}
-          open={open}
-          title="Create User"
           onRefresh={(refresh) => {
-            if(refresh){
-              getAllUser();
+            if (refresh) {
+              getAllRestaurant();
             }
           }}
         />
@@ -74,7 +82,7 @@ const UserManagement: React.FC = () => {
           variant="h4"
           style={{ fontFamily: "monospace", color: "darkslateblue" }}
         >
-          User Management
+          Restaurant Management
         </Typography>
       </Grid>
 
@@ -95,7 +103,7 @@ const UserManagement: React.FC = () => {
             setOpen(!open);
           }}
         >
-          Create New User
+          Create New Restaurant
         </Button>
       </Grid>
 
@@ -104,39 +112,47 @@ const UserManagement: React.FC = () => {
           <CardContent>
             <Table>
               <TableHead style={{ backgroundColor: "whitesmoke" }}>
-                {tableColumns.map((column, index) => {
-                  return (
-                    <TableCell key={index} sx={{ textAlign: "center" }}>
-                      <Typography
-                        variant="h6"
-                        style={{
-                          fontFamily: "monospace",
-                          color: "darkslateblue",
-                          fontWeight: "bold",
-                        }}
-                      >
-                        {column}
-                      </Typography>
-                    </TableCell>
-                  );
-                })}
+                <TableRow>
+                  {tableColumns.map((column, index) => {
+                    return (
+                      <TableCell key={index} sx={{ textAlign: "center" }}>
+                        <Typography
+                          variant="h6"
+                          style={{
+                            fontFamily: "monospace",
+                            color: "darkslateblue",
+                            fontWeight: "bold",
+                          }}
+                        >
+                          {column}
+                        </Typography>
+                      </TableCell>
+                    );
+                  })}
+                </TableRow>
               </TableHead>
-
               <TableBody>
-                {allUser.map((user, index) => {
+                {allRestaurant.map((rest, index) => {
                   return (
                     <TableRow key={index}>
                       <TableCell sx={{ textAlign: "center" }}>
-                        {user.name}
+                        {rest.name}
                       </TableCell>
                       <TableCell sx={{ textAlign: "center" }}>
-                        {user.surname}
+                        {rest.categories.join(",")}
                       </TableCell>
                       <TableCell sx={{ textAlign: "center" }}>
-                        {user.email}
+                        {rest.address}
                       </TableCell>
+
                       <TableCell sx={{ textAlign: "center" }}>
-                        {user.role}
+                        <Tooltip title={rest.vendorInformation.email}>
+                          <span>
+                            {rest.vendorInformation.name +
+                              " " +
+                              rest.vendorInformation.surname}
+                          </span>
+                        </Tooltip>
                       </TableCell>
                       <TableCell
                         sx={{
@@ -151,11 +167,7 @@ const UserManagement: React.FC = () => {
                             sx={{ marginRight: 1 }}
                           />
                         </IconButton>
-                        <IconButton
-                          onClick={() => {
-                            deleteUser(user._id);
-                          }}
-                        >
+                        <IconButton onClick={() => {}}>
                           <DeleteIcon style={{ color: "darkred" }} />
                         </IconButton>
                       </TableCell>
@@ -171,4 +183,4 @@ const UserManagement: React.FC = () => {
   );
 };
 
-export default UserManagement;
+export default RestaurantManagement;

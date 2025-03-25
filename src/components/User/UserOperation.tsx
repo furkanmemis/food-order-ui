@@ -11,6 +11,7 @@ import {
 } from "@mui/material";
 import CloseIcon from "@mui/icons-material/Close";
 import API from "../../services/api-services";
+import { useSnackbar } from "notistack";
 
 interface UserOperationProps {
   onClose: () => void;
@@ -31,6 +32,7 @@ const UserOperation: React.FC<UserOperationProps> = ({
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
   const [role, setRole] = useState<string>("user");
+  const { enqueueSnackbar } = useSnackbar();
 
   const createUser = async () => {
     try {
@@ -43,8 +45,11 @@ const UserOperation: React.FC<UserOperationProps> = ({
       });
       console.log("create user response -> ", response);
       reset();
+      enqueueSnackbar('User create success.',{variant: "success", autoHideDuration: 2000});
     } catch (error) {
       console.log("User create error: ", error);
+      enqueueSnackbar('User create error.',{variant: "error", autoHideDuration: 2000});
+
     }
   };
 

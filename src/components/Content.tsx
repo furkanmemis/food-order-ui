@@ -36,9 +36,9 @@ const Content: React.FC = () => {
                     
                     <Grid size={12} spacing={3} container>
 
-                       {restaurants.map((restaurant) => {
+                       {restaurants.map((restaurant, index) => {
                         return(
-                            <Grid size={6}>
+                            <Grid key={index} size={6}>
 
                                 <RestaurantCard name={restaurant.name} rate={restaurant.rate} category={restaurant.category} />
 
