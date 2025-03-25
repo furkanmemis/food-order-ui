@@ -17,12 +17,15 @@ import EditIcon from "@mui/icons-material/Edit";
 import CategoryOperation from "./CategoryOperation";
 import { Category } from "../../Models/Category";
 import API from "../../services/api-services";
+import KeyboardBackspaceIcon from "@mui/icons-material/KeyboardBackspace";
+import { useNavigate } from "react-router-dom";
 
 const CategoryManagement: React.FC = () => {
   const tableHead = ["Name", "Action"];
   const [open, setOpen] = useState<boolean>(false);
   const [allCategory, setAllCategory] = useState<Category[]>([]);
   const category_api_service = new API("category/");
+  const navigate = useNavigate();
 
   const getAllCategory = async () => {
     try {
@@ -37,6 +40,10 @@ const CategoryManagement: React.FC = () => {
     getAllCategory();
   }, []);
 
+  const redirectToProfile = () => {
+    navigate("/profile");
+  };
+
   return (
     <Grid container size={12} sx={{ marginTop: 3 }}>
       <Grid size={12}>
@@ -46,13 +53,14 @@ const CategoryManagement: React.FC = () => {
           }}
           open={open}
           onRefresh={(refresh) => {
-            if(refresh){
+            if (refresh) {
               getAllCategory();
             }
           }}
           title="Create Category"
         />
       </Grid>
+
       <Grid size={12} sx={{ margin: 3 }}>
         <Typography
           variant="h4"
@@ -64,20 +72,39 @@ const CategoryManagement: React.FC = () => {
 
       <Grid
         size={12}
+        container
         display="flex"
-        justifyContent="flex-end"
-        sx={{ margin: 3 }}
+        justifyContent="space-between"
+        alignItems="center"
+        sx={{ marginBottom: 2 }}
       >
-        <Button
-          sx={{
-            backgroundColor: "darkslateblue",
-            color: "white",
-            textTransform: "none",
-          }}
-          onClick={()=>{setOpen(!open)}}
-        >
-          Create Category
-        </Button>
+        <Grid display="flex" alignItems="center">
+          <IconButton
+            onClick={() => {
+              redirectToProfile();
+            }}
+          >
+            <KeyboardBackspaceIcon />
+          </IconButton>
+          <p style={{ color: "darkslateblue", marginLeft: 8 }}>
+            Back to profile page
+          </p>
+        </Grid>
+
+        <Grid>
+          <Button
+            sx={{
+              backgroundColor: "darkslateblue",
+              color: "white",
+              textTransform: "none",
+            }}
+            onClick={() => {
+              setOpen(!open);
+            }}
+          >
+            Create Category
+          </Button>
+        </Grid>
       </Grid>
 
       <Grid size={12}>

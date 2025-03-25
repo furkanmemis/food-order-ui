@@ -19,6 +19,8 @@ import DeleteIcon from "@mui/icons-material/Delete";
 import { useSnackbar } from "notistack";
 import { RestaurantManagementModel } from "../../Models/Restaurant";
 import RestaurantOperation from "./RestaurantOperation";
+import KeyboardBackspaceIcon from "@mui/icons-material/KeyboardBackspace";
+import { useNavigate } from "react-router-dom";
 
 const RestaurantManagement: React.FC = () => {
   const tableColumns = ["Name", "Categories", "Address", "Vendor", "Actions"];
@@ -28,6 +30,7 @@ const RestaurantManagement: React.FC = () => {
   const [allRestaurant, setAllRestaurant] = useState<
     RestaurantManagementModel[]
   >([]);
+  const navigate = useNavigate();
 
   const getAllRestaurant = async () => {
     try {
@@ -62,6 +65,10 @@ const RestaurantManagement: React.FC = () => {
     getAllRestaurant();
   }, []);
 
+  const redirectToProfile = () => {
+    navigate("/profile");
+  };
+
   return (
     <Grid container size={12} sx={{ marginTop: 3 }}>
       <Grid size={12}>
@@ -88,23 +95,39 @@ const RestaurantManagement: React.FC = () => {
 
       <Grid
         size={12}
+        container
         display="flex"
-        justifyContent="flex-end"
-        sx={{ margin: 3 }}
+        justifyContent="space-between"
+        alignItems="center"
+        sx={{ marginBottom: 2 }}
       >
-        <Button
-          style={{
-            backgroundColor: "darkslateblue",
-            color: "white",
-            textTransform: "none",
-          }}
-          variant="contained"
-          onClick={() => {
-            setOpen(!open);
-          }}
-        >
-          Create New Restaurant
-        </Button>
+        <Grid display="flex" alignItems="center">
+          <IconButton
+            onClick={() => {
+              redirectToProfile();
+            }}
+          >
+            <KeyboardBackspaceIcon />
+          </IconButton>
+          <p style={{ color: "darkslateblue", marginLeft: 8 }}>
+            Back to profile page
+          </p>
+        </Grid>
+
+        <Grid>
+          <Button
+            sx={{
+              backgroundColor: "darkslateblue",
+              color: "white",
+              textTransform: "none",
+            }}
+            onClick={() => {
+              setOpen(!open);
+            }}
+          >
+            Create Restaurant
+          </Button>
+        </Grid>
       </Grid>
 
       <Grid size={12} sx={{ margin: 3 }}>

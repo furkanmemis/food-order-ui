@@ -18,7 +18,8 @@ import { User } from "../../Models/User";
 import DeleteIcon from "@mui/icons-material/Delete";
 import UserOperation from "./UserOperation";
 import { useSnackbar } from "notistack";
-
+import KeyboardBackspaceIcon from "@mui/icons-material/KeyboardBackspace";
+import { useNavigate } from "react-router-dom";
 
 const UserManagement: React.FC = () => {
   const tableColumns = ["Name", "Surname", "Email", "Role", "Actions"];
@@ -26,7 +27,7 @@ const UserManagement: React.FC = () => {
   const user_api_service = new API("user/");
   const [open, setOpen] = useState<boolean>(false);
   const { enqueueSnackbar } = useSnackbar();
-  
+  const navigate = useNavigate();
 
   const getAllUser = async () => {
     try {
@@ -37,15 +38,25 @@ const UserManagement: React.FC = () => {
     }
   };
 
+  const redirectToProfile = () => {
+    navigate("/profile");
+  };
+
   const deleteUser = async (id: string) => {
     try {
       const response = await user_api_service.delete("delete-user/" + id);
       console.log("Delete User Response: ", response);
       getAllUser();
-      enqueueSnackbar('User delete success.',{variant: "success", autoHideDuration: 2000});
+      enqueueSnackbar("User delete success.", {
+        variant: "success",
+        autoHideDuration: 2000,
+      });
     } catch (error) {
       console.log("User management delete error: ", error);
-      enqueueSnackbar('User delete error.',{variant: "error", autoHideDuration: 2000});
+      enqueueSnackbar("User delete error.", {
+        variant: "error",
+        autoHideDuration: 2000,
+      });
     }
   };
 
@@ -63,7 +74,7 @@ const UserManagement: React.FC = () => {
           open={open}
           title="Create User"
           onRefresh={(refresh) => {
-            if(refresh){
+            if (refresh) {
               getAllUser();
             }
           }}
@@ -80,23 +91,39 @@ const UserManagement: React.FC = () => {
 
       <Grid
         size={12}
+        container
         display="flex"
-        justifyContent="flex-end"
-        sx={{ margin: 3 }}
+        justifyContent="space-between"
+        alignItems="center"
+        sx={{ marginBottom: 2 }}
       >
-        <Button
-          style={{
-            backgroundColor: "darkslateblue",
-            color: "white",
-            textTransform: "none",
-          }}
-          variant="contained"
-          onClick={() => {
-            setOpen(!open);
-          }}
-        >
-          Create New User
-        </Button>
+        <Grid display="flex" alignItems="center">
+          <IconButton
+            onClick={() => {
+              redirectToProfile();
+            }}
+          >
+            <KeyboardBackspaceIcon />
+          </IconButton>
+          <p style={{ color: "darkslateblue", marginLeft: 8 }}>
+            Back to profile page
+          </p>
+        </Grid>
+
+        <Grid>
+          <Button
+            sx={{
+              backgroundColor: "darkslateblue",
+              color: "white",
+              textTransform: "none",
+            }}
+            onClick={() => {
+              setOpen(!open);
+            }}
+          >
+            Create User
+          </Button>
+        </Grid>
       </Grid>
 
       <Grid size={12} sx={{ margin: 3 }}>
