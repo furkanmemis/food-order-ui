@@ -1,66 +1,51 @@
 import axios from "axios";
 
-
 class API {
-
     private _token: string;
-    public url: string = 'http://localhost:4000/'
+    public url: string = "http://localhost:4000/";
 
     constructor(apiUrl: string) {
         const token = localStorage.getItem("token");
-        this._token = token ?? '';
+        this._token = token ?? "";
         this.url = this.url + apiUrl;
     }
 
-    public async get(url: string) {
+    private async request(method: "get" | "post" | "put" | "delete", url: string, data?: any) {
         try {
-            const response = await axios.get(this.url + url, {
-                headers: { Authorization: `Bearer ${this._token}` }
+            const response = await axios({
+                method,
+                url: this.url + url,
+                data,
+                headers: { Authorization: `Bearer ${this._token}` },
             });
+
+            // 200 serisi dışındaki kodları hata olarak fırlat
+            if (response.status < 200 || response.status >= 300) {
+                throw new Error(`HTTP Error: ${response.status} - ${response.statusText}`);
+            }
+
             return response.data;
         } catch (error) {
-            console.log("Get API Error: ", error);
+            console.error(`${method.toUpperCase()} API Error:`, error);
+            throw error; // Hata fırlatarak çağıran tarafın işlemesi sağlanır
         }
     }
 
-    public async post(url: string, data: any) {
-        try {
-
-            const response = await axios.post(this.url + url, data, {
-                headers: { Authorization: `Bearer ${this._token}` }
-            });
-            return response.data
-
-        } catch (error) {
-            console.log("Post API Error: ", error)
-        }
+    public get(url: string) {
+        return this.request("get", url);
     }
 
-    public async put(url: string, data: any) {
-        try {
-
-            const response = await axios.put(this.url + url, data, {
-                headers: { Authorization: `Bearer ${this._token}` }
-            });
-            return response.data
-
-        } catch (error) {
-            console.log("Post API Error: ", error)
-        }
+    public post(url: string, data: any) {
+        return this.request("post", url, data);
     }
 
-    public async delete(url: string) {
-        try {
-            const response = await axios.delete(this.url + url, {
-                headers: { Authorization: `Bearer ${this._token}` }
-            });
-
-            return response.data
-        } catch (error) {
-            console.log("Delete API Error: ", error);
-        }
+    public put(url: string, data: any) {
+        return this.request("put", url, data);
     }
 
+    public delete(url: string) {
+        return this.request("delete", url);
+    }
 }
 
 export default API;

@@ -61,7 +61,7 @@ const RestaurantOperation: React.FC<RestaurantOperationProps> = ({
 
     }catch(error){
         console.log("Restaurant create error ",error);
-        enqueueSnackbar('User create failed.',{variant: "error", autoHideDuration: 2000});
+        enqueueSnackbar('Restaurant create failed.',{variant: "error", autoHideDuration: 2000});
 
     }
   }
