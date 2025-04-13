@@ -19,6 +19,8 @@ import { Category } from "../../Models/Category";
 import API from "../../services/api-services";
 import KeyboardBackspaceIcon from "@mui/icons-material/KeyboardBackspace";
 import { useNavigate } from "react-router-dom";
+import ImageIcon from '@mui/icons-material/Image';
+import ImageUploader from "../GeneralComponent/ImageUploader";
 
 const CategoryManagement: React.FC = () => {
   const tableHead = ["Name", "Action"];
@@ -26,6 +28,8 @@ const CategoryManagement: React.FC = () => {
   const [allCategory, setAllCategory] = useState<Category[]>([]);
   const category_api_service = new API("category/");
   const navigate = useNavigate();
+  const [imageOpen,setImageOpen] = useState<boolean>(false);
+  const [parent,setParent] = useState<string>('');
 
   const getAllCategory = async () => {
     try {
@@ -59,6 +63,12 @@ const CategoryManagement: React.FC = () => {
           }}
           title="Create Category"
         />
+      </Grid>
+
+      <Grid size={12}>
+
+        <ImageUploader open={imageOpen} onClose={()=>{setImageOpen(!imageOpen)}} type="category" parent={parent} />
+
       </Grid>
 
       <Grid size={12} sx={{ margin: 3 }}>
@@ -149,6 +159,10 @@ const CategoryManagement: React.FC = () => {
                             style={{ color: "darkslateblue" }}
                             sx={{ marginRight: 1 }}
                           />
+                        </IconButton>
+
+                        <IconButton onClick={()=>{setImageOpen(!imageOpen); setParent(category._id)}}>
+                          <ImageIcon />
                         </IconButton>
                         <IconButton onClick={() => {}}>
                           <DeleteIcon style={{ color: "darkred" }} />
