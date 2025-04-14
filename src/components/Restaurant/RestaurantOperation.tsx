@@ -34,6 +34,7 @@ const RestaurantOperation: React.FC<RestaurantOperationProps> = ({
   const category_api_service = new API("category/");
   const restaurant_api_service = new API("restaurant/");
   const { enqueueSnackbar } = useSnackbar();
+  const [type,setType] = useState<string>('local');
 
   const [selectedCategories, setSelectedCategories] = useState<string[]>([]);
 
@@ -54,7 +55,7 @@ const RestaurantOperation: React.FC<RestaurantOperationProps> = ({
   const saveRestaurant = async () =>{
     try{
 
-        const response = await restaurant_api_service.post("create-restaurant",{name,address,"categories":selectedCategories});
+        const response = await restaurant_api_service.post("create-restaurant",{name,address,"categories":selectedCategories,type});
         onRefresh(true);
         enqueueSnackbar('Restaurant create success.',{variant: "success", autoHideDuration: 2000});
         onClose();
@@ -137,6 +138,23 @@ const RestaurantOperation: React.FC<RestaurantOperationProps> = ({
                   </MenuItem>
                 );
               })}
+            </Select>
+          </FormControl>
+        </Grid>
+        <Grid size={12}>
+          <FormControl fullWidth>
+            <InputLabel>Restaurant Type</InputLabel>
+            <Select
+              
+              value={type}
+              onChange={(e) =>
+                setType(e.target.value)
+              }
+              fullWidth
+            >
+              <MenuItem value='local'>Local</MenuItem>
+              <MenuItem value='chain'>Chain</MenuItem>
+
             </Select>
           </FormControl>
         </Grid>

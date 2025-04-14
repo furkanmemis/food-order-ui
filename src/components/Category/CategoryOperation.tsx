@@ -70,7 +70,7 @@ const CategoryOperation: React.FC<CategoryOperationProps> = ({
 
   const reset = () => {
     setName("");
-    setImage("");
+    setImage("bakery.png");
 
     setTimeout(() => {
       onClose();

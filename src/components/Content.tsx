@@ -1,24 +1,34 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import Grid from "@mui/material/Grid2";
 import { Card, CardContent } from "@mui/material";
 import RestaurantCard from "./ContentComponents/RestaurantCard";
 import ContentHeader from "./ContentComponents/ContentHeader";
 import { Restaurant } from "../Models/Restaurant";
+import API from "../services/api-services";
+import { RestaurantManagementModel } from "../Models/Restaurant";
 
 const Content: React.FC = () => {
 
-    const restaurants: Restaurant[] = [
-        { name: "Lezzet Durağı", category: "doner", rate: 4.7 },
-        { name: "Sushi Master", category: "fish", rate: 4.5 },
-        { name: "Pizza Time", category: "pizza", rate: 3.2 },
-        { name: "Burger House", category: "burger", rate: 4.3 },
-        { name: "Vegan Life", category: "breakfast", rate: 2.3 },
-        { name: "Steak & Grill", category: "meat", rate: 1 },
-        { name: "Curry Palace", category: "dessert", rate: 4.4 },
-        { name: "Taco Fiesta", category: "meat", rate: 4.1 },
-        { name: "Mediterranean Bites", category: "coffe", rate: 0.5 },
-        { name: "French Elegance", category: "pasta", rate: 4.7 }
-    ];
+    const restaurant_api_service = new API('restaurant/');
+    const [allRestaurant,setAllRestaurant] = useState<RestaurantManagementModel[]>([]);
+
+
+    const getAllRestaurant = async() =>{
+        try{
+
+            const response = await restaurant_api_service.get('get-all-restaurant');
+
+            setAllRestaurant(response as RestaurantManagementModel[]);
+
+        }catch(error){
+            console.log('restaurant get error');
+        }
+    }
+
+    useEffect(()=>{
+        getAllRestaurant();
+    },[])
+
 
     return(
 
@@ -36,15 +46,19 @@ const Content: React.FC = () => {
                     
                     <Grid size={12} spacing={3} container>
 
-                       {restaurants.map((restaurant, index) => {
+                       {allRestaurant && allRestaurant.length > 0 ? (allRestaurant.map((restaurant, index) => {
                         return(
                             <Grid key={index} size={6}>
 
-                                <RestaurantCard name={restaurant.name} rate={restaurant.rate} category={restaurant.category} />
+                                <RestaurantCard  rate={4} restaurant={restaurant} />
 
                             </Grid>
                         )
-                       })} 
+                       })):(
+                        <Grid size={12} display="flex" justifyContent="center">
+                            <p style={{fontFamily: "monospace", color: "darkslateblue", fontWeight: "bold", fontSize: 18}}>Any Restaurant Not Found</p>
+                        </Grid>
+                       )} 
 
 
                     </Grid>

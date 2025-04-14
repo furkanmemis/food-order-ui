@@ -3,37 +3,14 @@ import Grid from "@mui/material/Grid2";
 import { Card, CardContent, Typography } from "@mui/material";
 import StarIcon from "@mui/icons-material/Star";
 import StarBorderIcon from "@mui/icons-material/StarBorder";
+import { RestaurantManagementModel } from "../../Models/Restaurant";
 
 interface ContentHeaderProps {
-  name: string;
   rate: number;
-  category: string;
+  restaurant: RestaurantManagementModel;
 }
 
-const RestaurantCard: React.FC<ContentHeaderProps> = ({
-  name,
-  rate,
-  category,
-}) => {
-  const imageList = [
-    "bakery.png",
-    "breakfast.png",
-    "burger.png",
-    "coffee.png",
-    "dessert.png",
-    "doner.png",
-    "fish.png",
-    "meat.png",
-    "pasta.png",
-    "pizza.png",
-    "sushi.png",
-  ];
-
-  const findMyCategory = () => {
-    const myCategory = imageList.find((image) => image.includes(category));
-    return myCategory;
-  };
-
+const RestaurantCard: React.FC<ContentHeaderProps> = ({ rate, restaurant }) => {
   const getStar = () => {
     const stars = [];
 
@@ -53,7 +30,17 @@ const RestaurantCard: React.FC<ContentHeaderProps> = ({
 
   return (
     <Grid container size={12}>
-      <Card sx={{ width: "100%", height: "20vh" }}>
+      <Card
+        sx={{
+          width: "100%",
+          height: "20vh",
+          cursor: "pointer",
+          "&:hover": {
+            backgroundColor: "#d0e8ff",
+            cursor: "pointer",
+          },
+        }}
+      >
         <CardContent>
           <Grid container size={12}>
             <Grid
@@ -75,7 +62,7 @@ const RestaurantCard: React.FC<ContentHeaderProps> = ({
                   <img
                     width="50px"
                     height="50px"
-                    src={`/foods-icon/${findMyCategory()}`}
+                    src={`/foods-icon/${restaurant.categories[0]}.png`}
                     alt="category"
                   />
                 </CardContent>
@@ -89,7 +76,7 @@ const RestaurantCard: React.FC<ContentHeaderProps> = ({
                     variant="h5"
                     style={{ fontFamily: "monospace", color: "darkslateblue" }}
                   >
-                    {name}
+                    {restaurant.name}
                   </Typography>
                 </Grid>
 
@@ -101,7 +88,7 @@ const RestaurantCard: React.FC<ContentHeaderProps> = ({
                   variant="body1"
                   style={{ fontFamily: "monospace", color: "darkslateblue" }}
                 >
-                  {category.toUpperCase()}
+                  {restaurant.categories.join(",").toUpperCase()}
                 </Typography>
               </Grid>
             </Grid>

@@ -23,7 +23,7 @@ import KeyboardBackspaceIcon from "@mui/icons-material/KeyboardBackspace";
 import { useNavigate } from "react-router-dom";
 
 const RestaurantManagement: React.FC = () => {
-  const tableColumns = ["Name", "Categories", "Address", "Vendor", "Actions"];
+  const tableColumns = ["Name", "Categories", "Address", "Vendor","Type", "Actions"];
   const restaurant_api_service = new API("restaurant/");
   const [open, setOpen] = useState<boolean>(false);
   const { enqueueSnackbar } = useSnackbar();
@@ -176,6 +176,9 @@ const RestaurantManagement: React.FC = () => {
                               rest.vendorInformation.surname}
                           </span>
                         </Tooltip>
+                      </TableCell>
+                      <TableCell sx={{ textAlign: "center" }}>
+                        {rest.type.toLocaleUpperCase()}
                       </TableCell>
                       <TableCell
                         sx={{
