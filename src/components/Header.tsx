@@ -1,7 +1,7 @@
 import React from "react";
 import Grid from "@mui/material/Grid2";
 import { Card, CardContent, Divider } from "@mui/material";
-import FavoriKitchen from "./HeaderComponents/FavoriKitchen";
+import CategoryList from "./HeaderComponents/CategoryList";
 import Campaign from "./HeaderComponents/Campaign";
 import ChainRestaurant from "./HeaderComponents/ChainRestaurant";
 
@@ -14,7 +14,7 @@ const Header: React.FC = () => {
         <CardContent>
           <Grid container spacing={4}>
             <Grid size={12}>
-              <FavoriKitchen />
+              <CategoryList />
             </Grid>
 
             <Grid size={12}>
