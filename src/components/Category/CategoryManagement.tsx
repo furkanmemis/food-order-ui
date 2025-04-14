@@ -21,7 +21,7 @@ import { Category } from "../../Models/Category";
 import API from "../../services/api-services";
 import KeyboardBackspaceIcon from "@mui/icons-material/KeyboardBackspace";
 import { useNavigate } from "react-router-dom";
-// import ImageIcon from '@mui/icons-material/Image';
+import { useSnackbar } from "notistack";
 import ImageUploader from "../GeneralComponent/ImageUploader";
 
 const CategoryManagement: React.FC = () => {
@@ -32,6 +32,7 @@ const CategoryManagement: React.FC = () => {
   const navigate = useNavigate();
   const [imageOpen, setImageOpen] = useState<boolean>(false);
   const [parent, setParent] = useState<string>("");
+  const { enqueueSnackbar } = useSnackbar();
 
   const getAllCategory = async () => {
     try {
@@ -48,6 +49,29 @@ const CategoryManagement: React.FC = () => {
 
   const redirectToProfile = () => {
     navigate("/profile");
+  };
+
+  const deleteCategory = async (id: string) => {
+    try {
+      const response = await category_api_service.delete(
+        "delete-category/" + id
+      );
+
+      if (response) {
+        enqueueSnackbar("Category delete success.", {
+          variant: "success",
+          autoHideDuration: 2000,
+        });
+
+        getAllCategory();
+      }
+    } catch (error) {
+      console.log("delete category error");
+      enqueueSnackbar("Category delete error.", {
+        variant: "error",
+        autoHideDuration: 2000,
+      });
+    }
   };
 
   return (
@@ -159,13 +183,12 @@ const CategoryManagement: React.FC = () => {
                           display={"flex"}
                           justifyContent="center"
                         >
-                          <Tooltip title={category.image.split('.')[0]}>
-                          <Avatar
-                            src={`/foods-icon/${category.image}`}
-                            sx={{ width: 30, height: 30 }}
-                          />
+                          <Tooltip title={category.image.split(".")[0]}>
+                            <Avatar
+                              src={`/foods-icon/${category.image}`}
+                              sx={{ width: 30, height: 30 }}
+                            />
                           </Tooltip>
-                         
                         </Grid>
                       </TableCell>
 
@@ -186,7 +209,11 @@ const CategoryManagement: React.FC = () => {
                         {/* <IconButton onClick={()=>{setImageOpen(!imageOpen); setParent(category._id)}}>
                           <ImageIcon />
                         </IconButton> */}
-                        <IconButton onClick={() => {}}>
+                        <IconButton
+                          onClick={() => {
+                            deleteCategory(category._id);
+                          }}
+                        >
                           <DeleteIcon style={{ color: "darkred" }} />
                         </IconButton>
                       </TableCell>

@@ -31,7 +31,7 @@ const CategoryOperation: React.FC<CategoryOperationProps> = ({
   const [name, setName] = useState<string>("");
   const { enqueueSnackbar } = useSnackbar();
 
-  const [image, setImage] = useState<string>("");
+  const [image, setImage] = useState<string>("bakery.png");
 
   const imageList = [
     "bakery.png",
