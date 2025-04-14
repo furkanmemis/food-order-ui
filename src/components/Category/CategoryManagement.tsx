@@ -161,9 +161,9 @@ const CategoryManagement: React.FC = () => {
                           />
                         </IconButton>
 
-                        <IconButton onClick={()=>{setImageOpen(!imageOpen); setParent(category._id)}}>
+                        {/* <IconButton onClick={()=>{setImageOpen(!imageOpen); setParent(category._id)}}>
                           <ImageIcon />
-                        </IconButton>
+                        </IconButton> */}
                         <IconButton onClick={() => {}}>
                           <DeleteIcon style={{ color: "darkred" }} />
                         </IconButton>
