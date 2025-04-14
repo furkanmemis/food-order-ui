@@ -4,6 +4,11 @@ import { Typography } from "@mui/material";
 import API from "../../services/api-services";
 import { Category } from "../../Models/Category";
 
+import { Swiper, SwiperSlide } from "swiper/react";
+import { Navigation } from "swiper/modules";
+import "swiper/css";
+import "swiper/css/navigation";
+
 const CategoryList: React.FC = () => {
   const category_api_service = new API("category/");
   const [allCategory, setAllCategory] = useState<Category[]>([]);
@@ -43,53 +48,65 @@ const CategoryList: React.FC = () => {
           All Categories
         </Typography>
       </Grid>
-      {allCategory.length > 0 && allCategory ? (
-        allCategory.slice(0,10).map((category, index) => (
-          <Grid
-            key={index}
-            sx={{
-              width: "7%",
-              textAlign: "center",
-              mt: 2,
-              cursor: "pointer",
-              "&:hover": {
-                backgroundColor: "#d0e8ff",
-                cursor: "pointer",
-              },
-            }}
-          >
-            <img
-              width="40px"
-              height="40px"
-              src={`/foods-icon/${category.image}`}
-              alt={category.image.split(".")[0]}
-            />
-            <p
-              style={{
-                color: "darkslateblue",
-                fontFamily: "monospace",
-                fontSize: 16,
-                whiteSpace: "nowrap"
-              }}
-            >
-              {category.name}
-            </p>
-          </Grid>
-        ))
-      ) : (
-        <div style={{ display: "flex", textAlign: "center" }}>
-          <p
-            style={{
-              fontFamily: "monospace",
-              fontWeight: "bold",
-              color: "darkslateblue",
-              fontSize: 18,
-            }}
-          >
-            Any category not found.
-          </p>
-        </div>
-      )}
+
+      <Grid size={12} container>
+        <Swiper
+          modules={[Navigation]}
+          spaceBetween={0}
+          slidesPerView={8}
+          navigation
+        >
+          {allCategory.length > 0 && allCategory ? (
+            allCategory.map((category, index) => (
+              <SwiperSlide
+                key={index}
+                style={{
+                  display: "flex",
+                  flexDirection: "column",
+                  justifyContent: "center",
+                  alignItems: "center",
+                  textAlign: "center",
+                  cursor: "pointer",
+                  padding: "0px",
+                  height: "100%", // Ensure it takes up full height for centering
+                }}
+              >
+                <img
+                  width="40px"
+                  height="40px"
+                  src={`/foods-icon/${category.image}`}
+                  alt={category.image.split(".")[0]}
+                />
+                <p
+                  style={{
+                    color: "darkslateblue",
+                    fontFamily: "monospace",
+                    fontSize: 16,
+                    whiteSpace: "nowrap",
+                    marginTop: 5, // Resim ile yazı arası boşluk
+                    marginBottom: 0, // Optional: remove any extra space below text
+                  }}
+                >
+                  {category.name}
+                </p>
+              </SwiperSlide>
+            ))
+          ) : (
+            <div style={{ display: "flex", textAlign: "center" }}>
+              <p
+                style={{
+                  fontFamily: "monospace",
+                  fontWeight: "bold",
+                  color: "darkslateblue",
+                  fontSize: 18,
+                }}
+              >
+                Any category not found.
+              </p>
+            </div>
+          )}
+        </Swiper>
+      </Grid>
     </Grid>
   );
 };
