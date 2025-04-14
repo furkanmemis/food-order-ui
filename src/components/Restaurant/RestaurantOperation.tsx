@@ -9,24 +9,25 @@ import {
   Button,
   FormControl,
   InputLabel,
+  Avatar
 } from "@mui/material";
 import Grid from "@mui/material/Grid2";
 import CloseIcon from "@mui/icons-material/Close";
 import API from "../../services/api-services";
 import { Category } from "../../Models/Category";
 import { useSnackbar } from "notistack";
-
+import { imageList } from "../../Constants/imageList";
 
 interface RestaurantOperationProps {
   open: boolean;
   onClose: () => void;
-  onRefresh: (refresh:boolean) => void;
+  onRefresh: (refresh: boolean) => void;
 }
 
 const RestaurantOperation: React.FC<RestaurantOperationProps> = ({
   open,
   onClose,
-  onRefresh
+  onRefresh,
 }) => {
   const [name, setName] = useState<string>("");
   const [address, setAddress] = useState<string>("");
@@ -34,7 +35,8 @@ const RestaurantOperation: React.FC<RestaurantOperationProps> = ({
   const category_api_service = new API("category/");
   const restaurant_api_service = new API("restaurant/");
   const { enqueueSnackbar } = useSnackbar();
-  const [type,setType] = useState<string>('local');
+  const [type, setType] = useState<string>("local");
+  const [image,setImage] = useState<string>('bakery.png');
 
   const [selectedCategories, setSelectedCategories] = useState<string[]>([]);
 
@@ -51,21 +53,30 @@ const RestaurantOperation: React.FC<RestaurantOperationProps> = ({
     getAllCategory();
   }, []);
 
-
-  const saveRestaurant = async () =>{
-    try{
-
-        const response = await restaurant_api_service.post("create-restaurant",{name,address,"categories":selectedCategories,type});
-        onRefresh(true);
-        enqueueSnackbar('Restaurant create success.',{variant: "success", autoHideDuration: 2000});
-        onClose();
-
-    }catch(error){
-        console.log("Restaurant create error ",error);
-        enqueueSnackbar('Restaurant create failed.',{variant: "error", autoHideDuration: 2000});
-
+  const saveRestaurant = async () => {
+    try {
+      const response = await restaurant_api_service.post("create-restaurant", {
+        name,
+        address,
+        categories: selectedCategories,
+        type,
+        image,
+      });
+      onRefresh(true);
+      enqueueSnackbar("Restaurant create success.", {
+        variant: "success",
+        autoHideDuration: 2000,
+      });
+      onClose();
+    } catch (error) {
+      console.log("Restaurant create error ", error);
+      enqueueSnackbar("Restaurant create failed.", {
+        variant: "error",
+        autoHideDuration: 2000,
+      });
     }
-  }
+  };
+
 
   return (
     <SwipeableDrawer
@@ -145,19 +156,38 @@ const RestaurantOperation: React.FC<RestaurantOperationProps> = ({
           <FormControl fullWidth>
             <InputLabel>Restaurant Type</InputLabel>
             <Select
-              
               value={type}
-              onChange={(e) =>
-                setType(e.target.value)
-              }
+              onChange={(e) => setType(e.target.value)}
               fullWidth
             >
-              <MenuItem value='local'>Local</MenuItem>
-              <MenuItem value='chain'>Chain</MenuItem>
-
+              <MenuItem value="local">Local</MenuItem>
+              <MenuItem value="chain">Chain</MenuItem>
             </Select>
           </FormControl>
         </Grid>
+
+        <Grid size={12} container>
+          <Select
+            value={image}
+            onChange={(e) => {
+              setImage(e.target.value);
+              console.log(e.target.value);
+            }}
+            sx={{ width: "30%" }}
+          >
+            {imageList.map((img, ind) => {
+              return (
+                <MenuItem value={img} key={ind}>
+                  <Avatar
+                    src={`/foods-icon/${img}`}
+                    sx={{ width: 30, height: 30 }}
+                  />
+                </MenuItem>
+              );
+            })}
+          </Select>
+        </Grid>
+
         <Grid size={12} sx={{ position: "absolute", bottom: 10 }} container>
           <Grid size={6}>
             <Button
@@ -169,7 +199,9 @@ const RestaurantOperation: React.FC<RestaurantOperationProps> = ({
                 color: "white",
                 textTransform: "none",
               }}
-              onClick={()=>{saveRestaurant()}}
+              onClick={() => {
+                saveRestaurant();
+              }}
             >
               Save
             </Button>

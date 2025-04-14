@@ -12,4 +12,5 @@ export type RestaurantManagementModel ={
     categories: string[];
     vendorInformation: User;
     type: string;
+    image: string;
 }

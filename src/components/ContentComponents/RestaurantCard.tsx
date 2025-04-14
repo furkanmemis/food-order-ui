@@ -62,7 +62,7 @@ const RestaurantCard: React.FC<ContentHeaderProps> = ({ rate, restaurant }) => {
                   <img
                     width="50px"
                     height="50px"
-                    src={`/foods-icon/${restaurant.categories[0]}.png`}
+                    src={`/foods-icon/`+restaurant.image}
                     alt="category"
                   />
                 </CardContent>

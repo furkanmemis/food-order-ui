@@ -20,10 +20,10 @@ const Home: React.FC = () => {
                 <Content />
 
             </Grid>
-
+{/* 
             <Grid size={12}>
                 <Footer />
-            </Grid>
+            </Grid> */}
 
         </Grid>
 

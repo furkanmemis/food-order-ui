@@ -14,6 +14,7 @@ const ChainRestaurant: React.FC = () => {
       let chain = (response as RestaurantManagementModel[]).filter(
         (rest) => rest.type === "chain"
       );
+      console.log("all chain- >" ,chain);
       setChain(chain as RestaurantManagementModel[]);
     } catch (error) {
       console.log("get all restaurant error");
@@ -47,37 +48,52 @@ const ChainRestaurant: React.FC = () => {
           Chain Restaurant
         </Typography>
       </Grid>
-      {chain.map((rest, index) => (
-        <Grid
-          key={index}
-          sx={{
-            width: "10%",
-            textAlign: "center",
-            mt: 2,
-            cursor: "pointer",
-            "&:hover": {
-              backgroundColor: "#d0e8ff",
+      {chain && chain.length > 0 ? (
+        chain.slice(0,7).map((rest, index) => (
+          <Grid
+            key={index}
+            sx={{
+              width: "10%",
+              textAlign: "center",
+              mt: 2,
               cursor: "pointer",
-            },
-          }}
-        >
-          <img
-            width="50px"
-            height="50px"
-            src={`/foods-icon/${rest.categories[0]}.png`}
-            alt={rest.categories[0]}
-          />
-          <p
-            style={{
-              color: "darkslateblue",
-              fontFamily: "monospace",
-              fontSize: 16,
+              "&:hover": {
+                backgroundColor: "#d0e8ff",
+                cursor: "pointer",
+              },
             }}
           >
-            {rest.name}
+            <img
+              width="50px"
+              height="50px"
+              src={`/foods-icon/`+rest.image}
+              alt={rest.categories[0]}
+            />
+            <p
+              style={{
+                color: "darkslateblue",
+                fontFamily: "monospace",
+                fontSize: 16,
+              }}
+            >
+              {rest.name}
+            </p>
+          </Grid>
+        ))
+      ) : (
+        <Grid size={12} display="flex" justifyContent="center">
+          <p
+            style={{
+              fontFamily: "monospace",
+              color: "darkslateblue",
+              fontWeight: "bold",
+              fontSize: 18,
+            }}
+          >
+            Any chain restaurant not found.
           </p>
         </Grid>
-      ))}
+      )}
     </Grid>
   );
 };

@@ -44,7 +44,7 @@ const CategoryList: React.FC = () => {
         </Typography>
       </Grid>
       {allCategory.length > 0 && allCategory ? (
-        allCategory.map((category, index) => (
+        allCategory.slice(0,10).map((category, index) => (
           <Grid
             key={index}
             sx={{
@@ -69,9 +69,10 @@ const CategoryList: React.FC = () => {
                 color: "darkslateblue",
                 fontFamily: "monospace",
                 fontSize: 16,
+                whiteSpace: "nowrap"
               }}
             >
-              {category.image.split(".")[0].toLocaleUpperCase()}
+              {category.name}
             </p>
           </Grid>
         ))

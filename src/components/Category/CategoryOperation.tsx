@@ -13,6 +13,7 @@ import {
 import CloseIcon from "@mui/icons-material/Close";
 import API from "../../services/api-services";
 import { useSnackbar } from "notistack";
+import { imageList } from "../../Constants/imageList";
 
 interface CategoryOperationProps {
   onClose: () => void;
@@ -33,19 +34,7 @@ const CategoryOperation: React.FC<CategoryOperationProps> = ({
 
   const [image, setImage] = useState<string>("bakery.png");
 
-  const imageList = [
-    "bakery.png",
-    "breakfast.png",
-    "burger.png",
-    "coffee.png",
-    "dessert.png",
-    "doner.png",
-    "fish.png",
-    "meat.png",
-    "pasta.png",
-    "pizza.png",
-    "sushi.png",
-  ];
+  
 
   const createCategory = async () => {
     try {
