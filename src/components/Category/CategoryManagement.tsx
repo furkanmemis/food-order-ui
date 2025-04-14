@@ -11,6 +11,8 @@ import {
   Card,
   TableRow,
   IconButton,
+  Avatar,
+  Tooltip,
 } from "@mui/material";
 import DeleteIcon from "@mui/icons-material/Delete";
 import EditIcon from "@mui/icons-material/Edit";
@@ -19,17 +21,17 @@ import { Category } from "../../Models/Category";
 import API from "../../services/api-services";
 import KeyboardBackspaceIcon from "@mui/icons-material/KeyboardBackspace";
 import { useNavigate } from "react-router-dom";
-import ImageIcon from '@mui/icons-material/Image';
+// import ImageIcon from '@mui/icons-material/Image';
 import ImageUploader from "../GeneralComponent/ImageUploader";
 
 const CategoryManagement: React.FC = () => {
-  const tableHead = ["Name", "Action"];
+  const tableHead = ["Name", "Image", "Action"];
   const [open, setOpen] = useState<boolean>(false);
   const [allCategory, setAllCategory] = useState<Category[]>([]);
   const category_api_service = new API("category/");
   const navigate = useNavigate();
-  const [imageOpen,setImageOpen] = useState<boolean>(false);
-  const [parent,setParent] = useState<string>('');
+  const [imageOpen, setImageOpen] = useState<boolean>(false);
+  const [parent, setParent] = useState<string>("");
 
   const getAllCategory = async () => {
     try {
@@ -66,9 +68,14 @@ const CategoryManagement: React.FC = () => {
       </Grid>
 
       <Grid size={12}>
-
-        <ImageUploader open={imageOpen} onClose={()=>{setImageOpen(!imageOpen)}} type="category" parent={parent} />
-
+        <ImageUploader
+          open={imageOpen}
+          onClose={() => {
+            setImageOpen(!imageOpen);
+          }}
+          type="category"
+          parent={parent}
+        />
       </Grid>
 
       <Grid size={12} sx={{ margin: 3 }}>
@@ -145,6 +152,21 @@ const CategoryManagement: React.FC = () => {
                     <TableRow key={index}>
                       <TableCell sx={{ textAlign: "center" }}>
                         {category.name}
+                      </TableCell>
+                      <TableCell sx={{ textAlign: "center" }}>
+                        <Grid
+                          size={12}
+                          display={"flex"}
+                          justifyContent="center"
+                        >
+                          <Tooltip title={category.image.split('.')[0]}>
+                          <Avatar
+                            src={`/foods-icon/${category.image}`}
+                            sx={{ width: 30, height: 30 }}
+                          />
+                          </Tooltip>
+                         
+                        </Grid>
                       </TableCell>
 
                       <TableCell

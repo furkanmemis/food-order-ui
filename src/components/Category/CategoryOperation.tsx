@@ -5,12 +5,14 @@ import {
   IconButton,
   Typography,
   TextField,
-  Button
+  Button,
+  Select,
+  MenuItem,
+  Avatar
 } from "@mui/material";
 import CloseIcon from "@mui/icons-material/Close";
 import API from "../../services/api-services";
 import { useSnackbar } from "notistack";
-
 
 interface CategoryOperationProps {
   onClose: () => void;
@@ -23,36 +25,58 @@ const CategoryOperation: React.FC<CategoryOperationProps> = ({
   onClose,
   open,
   title,
-  onRefresh
+  onRefresh,
 }) => {
-
   const category_api_service = new API("category/");
-  const [name,setName] = useState<string>('');
+  const [name, setName] = useState<string>("");
   const { enqueueSnackbar } = useSnackbar();
 
+  const [image, setImage] = useState<string>("");
+
+  const imageList = [
+    "bakery.png",
+    "breakfast.png",
+    "burger.png",
+    "coffee.png",
+    "dessert.png",
+    "doner.png",
+    "fish.png",
+    "meat.png",
+    "pasta.png",
+    "pizza.png",
+    "sushi.png",
+  ];
 
   const createCategory = async () => {
-    try{
-      const response = await category_api_service.post('create-category',{name});
-      console.log('create category response -> ',response);
+    try {
+      const response = await category_api_service.post("create-category", {
+        name,
+        image
+      });
+      console.log("create category response -> ", response);
       reset();
-      enqueueSnackbar('Category create success.',{variant: "success", autoHideDuration: 2000});
-  
-    }catch(error){
+      enqueueSnackbar("Category create success.", {
+        variant: "success",
+        autoHideDuration: 2000,
+      });
+    } catch (error) {
       console.log("Category create error: ", error);
-      enqueueSnackbar('Category create error.',{variant: "error", autoHideDuration: 2000});
+      enqueueSnackbar("Category create error.", {
+        variant: "error",
+        autoHideDuration: 2000,
+      });
     }
   };
 
-  const reset = () =>{
-    setName('');
+  const reset = () => {
+    setName("");
+    setImage("");
 
-    setTimeout(()=>{
+    setTimeout(() => {
       onClose();
       onRefresh(true);
-    },100)
-
-  }
+    }, 100);
+  };
 
   return (
     <SwipeableDrawer
@@ -82,13 +106,55 @@ const CategoryOperation: React.FC<CategoryOperationProps> = ({
 
         <Grid container spacing={3} size={4}>
           <Grid size={12}>
-            <TextField value={name} label="Name" fullWidth onChange={(e)=>{setName(e.target.value)}} />
+            <TextField
+              value={name}
+              label="Name"
+              fullWidth
+              onChange={(e) => {
+                setName(e.target.value);
+              }}
+            />
           </Grid>
-
         </Grid>
 
-        <Grid size={4} display="flex" alignItems="center" justifyContent="center">
-            <Button onClick={()=>{createCategory();}} variant="contained" style={{textTransform: "none", width: "70%", backgroundColor: "darkslateblue"}}>{title}</Button>
+        <Grid size={4} container>
+          <Select
+            value={image}
+            onChange={(e) => {
+              setImage(e.target.value);
+              console.log(e.target.value);
+            }}
+            sx={{width: "30%"}}
+          >
+            {imageList.map((img, ind) => {
+              return (
+                <MenuItem value={img} key={ind}>
+                  <Avatar src={`/foods-icon/${img}`} sx={{ width: 30, height: 30 }} />
+                </MenuItem>
+              );
+            })}
+          </Select>
+        </Grid>
+
+        <Grid
+          size={4}
+          display="flex"
+          alignItems="center"
+          justifyContent="center"
+        >
+          <Button
+            onClick={() => {
+              createCategory();
+            }}
+            variant="contained"
+            style={{
+              textTransform: "none",
+              width: "70%",
+              backgroundColor: "darkslateblue",
+            }}
+          >
+            {title}
+          </Button>
         </Grid>
       </Grid>
     </SwipeableDrawer>
