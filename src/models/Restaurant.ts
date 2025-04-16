@@ -13,4 +13,17 @@ export type RestaurantManagementModel ={
     vendorInformation: User;
     type: string;
     image: string;
+    id: string;
+};
+
+export type RestaurantCategoryModel = {
+    name: string;
+    _id: string;
+    restaurantId: string;
+};
+
+export type RestaurantFoodModel = {
+    name: string;
+    price: number;
+    restaurantCategory: RestaurantCategoryModel;
 }

@@ -4,6 +4,8 @@ import { Card, CardContent, Typography } from "@mui/material";
 import StarIcon from "@mui/icons-material/Star";
 import StarBorderIcon from "@mui/icons-material/StarBorder";
 import { RestaurantManagementModel } from "../../Models/Restaurant";
+import { useNavigate } from "react-router-dom";
+
 
 interface ContentHeaderProps {
   rate: number;
@@ -11,6 +13,8 @@ interface ContentHeaderProps {
 }
 
 const RestaurantCard: React.FC<ContentHeaderProps> = ({ rate, restaurant }) => {
+    const navigate = useNavigate();
+  
   const getStar = () => {
     const stars = [];
 
@@ -28,6 +32,10 @@ const RestaurantCard: React.FC<ContentHeaderProps> = ({ rate, restaurant }) => {
     return stars;
   };
 
+  const redirectRestaurantDetail = (id: string) => {
+    navigate("/restaurant-detail/"+id);
+  };
+
   return (
     <Grid container size={12}>
       <Card
@@ -40,6 +48,7 @@ const RestaurantCard: React.FC<ContentHeaderProps> = ({ rate, restaurant }) => {
             cursor: "pointer",
           },
         }}
+        onClick={()=>{redirectRestaurantDetail(restaurant.id)}}
       >
         <CardContent>
           <Grid container size={12}>

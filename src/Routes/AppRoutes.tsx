@@ -7,6 +7,7 @@ import Profile from "../Pages/Profile";
 import User from "../Pages/User";
 import Category from "../Pages/Category";
 import Restaurant from "../Pages/Restaurant";
+import RestaurantDetail from "../Pages/RestaurantDetail";
 
 const AppRoutes: React.FC = () => {
   return (
@@ -21,6 +22,7 @@ const AppRoutes: React.FC = () => {
           <Route path="/user" element={<User />} />
           <Route path="/category" element={<Category />} />
           <Route path="/restaurant" element={<Restaurant />} />
+          <Route path="/restaurant-detail/:id" element={<RestaurantDetail />} />
 
         </Routes>
       </Grid>

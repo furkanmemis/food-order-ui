@@ -3,9 +3,9 @@ import Grid from "@mui/material/Grid2";
 import { Card, CardContent } from "@mui/material";
 import RestaurantCard from "./ContentComponents/RestaurantCard";
 import ContentHeader from "./ContentComponents/ContentHeader";
-import { Restaurant } from "../Models/Restaurant";
 import API from "../services/api-services";
 import { RestaurantManagementModel } from "../Models/Restaurant";
+
 
 const Content: React.FC = () => {
 
@@ -17,6 +17,7 @@ const Content: React.FC = () => {
         try{
 
             const response = await restaurant_api_service.get('get-all-restaurant');
+            console.log("all restaurant content -> ", response);
 
             setAllRestaurant(response as RestaurantManagementModel[]);
 
