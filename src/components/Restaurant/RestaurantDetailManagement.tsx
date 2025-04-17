@@ -66,7 +66,7 @@ const RestaurantDetailManagement: React.FC<RestaurantDetailManagementProps> = ({
         {tabValue === "food" ? (
           <RestaurantFoodManagement rc={category} food={food} restaurantId={restaurantId} onRefresh={(refresh) => {onRefresh(refresh);}} />
         ) : tabValue === "category" ? (
-          <RestaurantCategoryManagement category={category} restaurantId={restaurantId} onRefresh={(refresh) => {onRefresh(refresh)}} />
+          <RestaurantCategoryManagement allFoods={food} category={category} restaurantId={restaurantId} onRefresh={(refresh) => {onRefresh(refresh)}} />
         ) : null}
       </Grid>
     </Grid>

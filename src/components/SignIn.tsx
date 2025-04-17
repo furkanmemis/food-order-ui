@@ -108,6 +108,7 @@ const SignIn: React.FC = () => {
                 color: "white",
                 backgroundColor: "gray",
               },
+              textTransform: "none"
             }}
             variant="contained"
           >

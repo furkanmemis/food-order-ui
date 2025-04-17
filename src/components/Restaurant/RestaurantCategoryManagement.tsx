@@ -16,25 +16,29 @@ import DeleteIcon from "@mui/icons-material/Delete";
 import RestaurantCategoryDrawer from "./RestaurantCategoryDrawer";
 import API from "../../services/api-services";
 import { useSnackbar } from "notistack";
+import { RestaurantFoodModel } from "../../Models/Restaurant";
 
 interface RestaurantCategoryManagementProps {
   category: RestaurantCategoryModel[];
   restaurantId: string;
   onRefresh: (refresh: boolean) => void;
+  allFoods: RestaurantFoodModel[];
 }
 
 const RestaurantCategoryManagement: React.FC<
   RestaurantCategoryManagementProps
-> = ({ category, restaurantId, onRefresh }) => {
+> = ({ category, restaurantId, onRefresh, allFoods }) => {
   const tableColumns = ["Name", "Actions"];
   const [categories, setCategories] = useState<RestaurantCategoryModel[]>([]);
   const [open, setOpen] = useState<boolean>(false);
   const restaurant_api_service = new API("restaurant/");
   const { enqueueSnackbar } = useSnackbar();
+  const [foods, setFoods] = useState<RestaurantFoodModel[]>([]);
 
   useEffect(() => {
     setCategories(category);
-  }, [category]);
+    setFoods(allFoods);
+  }, [category, allFoods]);
 
   const deleteCategory = async (id: string) => {
     try {
@@ -120,11 +124,14 @@ const RestaurantCategoryManagement: React.FC<
                         </IconButton>
 
                         <IconButton
+                          disabled={foods.some((f) =>
+                            f.restaurantCategory._id === c._id ? true : false
+                          )}
                           onClick={() => {
                             deleteCategory(c._id);
                           }}
                         >
-                          <DeleteIcon sx={{ color: "darkred" }} />
+                          <DeleteIcon sx={{color: foods.some((f) => f.restaurantCategory._id === c._id) ? "grey" : "darkred"}} />
                         </IconButton>
                       </Box>
                     </TableCell>
