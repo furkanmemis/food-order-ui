@@ -14,7 +14,6 @@ const ChainRestaurant: React.FC = () => {
       let chain = (response as RestaurantManagementModel[]).filter(
         (rest) => rest.type === "chain"
       );
-      console.log("all chain- >" ,chain);
       setChain(chain as RestaurantManagementModel[]);
     } catch (error) {
       console.log("get all restaurant error");

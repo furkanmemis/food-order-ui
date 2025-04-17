@@ -64,7 +64,7 @@ const RestaurantDetailMain: React.FC<RestaurantDetailMainProps> = ({ id }) => {
             <RestaurantHeader currentRestaurant={myRestaurant} />
           </Grid>
           <Grid size={12}>
-            <RestaurantContent restaurantId={restaurantId} />
+            <RestaurantContent restaurantId={restaurantId} currentRestaurant={myRestaurant} />
           </Grid>
         </>
       )}

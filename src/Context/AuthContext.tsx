@@ -11,6 +11,7 @@ interface AuthContextType {
   surname: string;
   email: string;
   role: string;
+  userId: string;
 }
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
@@ -33,6 +34,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
   const [surname,setSurname] = useState<string>('');
   const [email, setEmail] = useState<string>('');
   const [role, setRole] = useState<string>('');
+  const [userId,setId] = useState<string>('');
   const { enqueueSnackbar } = useSnackbar();
 
 
@@ -48,11 +50,12 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
         localStorage.setItem("sessionUser", JSON.stringify(user));
         localStorage.setItem("token",user.token);
   
-        console.log("user info", user.name, user.surname, user.email);
+        console.log("user info", user.name, user.surname, user.email, user.id);
         setName(user.name)
         setSurname(user.surname)
         setEmail(user.email)
         setRole(user.role);
+        setId(user.id);
   
         // URL'yi değiştir
         window.history.pushState({}, "", "/home");
@@ -73,7 +76,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
   };
 
   return (
-    <AuthContext.Provider value={{login, logout, name, surname, email, role }}>
+    <AuthContext.Provider value={{login, logout, name, surname, email, role, userId }}>
       {children}
     </AuthContext.Provider>
   );

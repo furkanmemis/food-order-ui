@@ -15,7 +15,6 @@ const RestaurantCategory: React.FC<RestaurantCategoryProps> = ({ name, restauran
 
     useEffect(()=>{
         setAllFood(restaurantFoods);
-        console.log("category + foods -> "+name + " -> "+ restaurantFoods);
     },[restaurantFoods])
 
 

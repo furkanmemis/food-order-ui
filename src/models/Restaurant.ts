@@ -26,4 +26,5 @@ export type RestaurantFoodModel = {
     name: string;
     price: number;
     restaurantCategory: RestaurantCategoryModel;
+    id:string;
 }

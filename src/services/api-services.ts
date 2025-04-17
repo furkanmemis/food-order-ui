@@ -43,8 +43,8 @@ class API {
         return this.request("put", url, data);
     }
 
-    public delete(url: string) {
-        return this.request("delete", url);
+    public delete(url: string, data?: any) {
+        return this.request("delete", url,data);
     }
 }
 
