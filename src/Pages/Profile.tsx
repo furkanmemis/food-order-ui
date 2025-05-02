@@ -16,6 +16,10 @@ const Profile: React.FC = () => {
     navigate("/category");
   };
 
+  const rediretPayment = () =>{
+    navigate("/payment");
+  }
+
   const redirectRestaurant = () =>{
     navigate('/restaurant');
   }
@@ -89,6 +93,19 @@ const Profile: React.FC = () => {
                 variant="h6"
               >
                 Category Page
+              </Typography>
+            </Grid>
+
+
+            <Grid size={12}>
+              <Typography
+                onClick={() => {
+                  rediretPayment();
+                }}
+                style={{ cursor: "pointer" }}
+                variant="h6"
+              >
+                Payment Page
               </Typography>
             </Grid>
           </Grid>

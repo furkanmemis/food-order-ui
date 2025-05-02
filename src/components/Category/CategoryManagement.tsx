@@ -23,6 +23,7 @@ import KeyboardBackspaceIcon from "@mui/icons-material/KeyboardBackspace";
 import { useNavigate } from "react-router-dom";
 import { useSnackbar } from "notistack";
 import ImageUploader from "../GeneralComponent/ImageUploader";
+import { defaultCategory } from "../../Constants/imageList";
 
 const CategoryManagement: React.FC = () => {
   const tableHead = ["Name", "Image", "Action"];
@@ -74,6 +75,29 @@ const CategoryManagement: React.FC = () => {
     }
   };
 
+  const createAllDefault = async () => {
+    try {
+      for (const cat of defaultCategory) {
+        let data = { name: cat.name, image: cat.image };
+        const response = await category_api_service.post(
+          "create-category",
+          data
+        );
+
+        if (response) {
+          enqueueSnackbar(cat.name + " added", {
+            variant: "success",
+            autoHideDuration: 2000,
+          });
+        }
+      }
+
+      getAllCategory();
+    } catch (error) {
+      console.log("crete default category");
+    }
+  };
+
   return (
     <Grid container size={12} sx={{ marginTop: 3 }}>
       <Grid size={12}>
@@ -119,7 +143,7 @@ const CategoryManagement: React.FC = () => {
         alignItems="center"
         sx={{ marginBottom: 2 }}
       >
-        <Grid display="flex" alignItems="center">
+        <Grid display="flex" alignItems="center" size={4}>
           <IconButton
             onClick={() => {
               redirectToProfile();
@@ -132,7 +156,22 @@ const CategoryManagement: React.FC = () => {
           </p>
         </Grid>
 
-        <Grid>
+        {allCategory.length === 0 ? (
+          <Grid size={4} display="flex" justifyContent="flex-end">
+            <Button
+              onClick={() => {
+                createAllDefault();
+              }}
+              disabled={allCategory.length > 0}
+              variant="contained"
+              sx={{ backgroundColor: "darkslateblue", textTransform: "none" }}
+            >
+              Get All Default Category
+            </Button>
+          </Grid>
+        ) : null}
+
+        <Grid size={allCategory.length === 0 ? 4 : 6} display="flex" justifyContent="flex-end">
           <Button
             sx={{
               backgroundColor: "darkslateblue",

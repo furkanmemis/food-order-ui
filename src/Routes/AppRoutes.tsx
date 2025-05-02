@@ -8,6 +8,7 @@ import User from "../Pages/User";
 import Category from "../Pages/Category";
 import Restaurant from "../Pages/Restaurant";
 import RestaurantDetail from "../Pages/RestaurantDetail";
+import Payment from "../Pages/Payment";
 
 const AppRoutes: React.FC = () => {
   return (
@@ -23,6 +24,7 @@ const AppRoutes: React.FC = () => {
           <Route path="/category" element={<Category />} />
           <Route path="/restaurant" element={<Restaurant />} />
           <Route path="/restaurant-detail/:id" element={<RestaurantDetail />} />
+          <Route path="/payment" element={<Payment />} />
 
         </Routes>
       </Grid>
